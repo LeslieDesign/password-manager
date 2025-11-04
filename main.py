@@ -1,6 +1,8 @@
 from tkinter import *
+from tkinter import messagebox
 import string
 import secrets
+import pyperclip
 FONT_NAME = "Arial"
 FONT_SIZE = 9
 
@@ -8,22 +10,33 @@ FONT_SIZE = 9
 def generate_password(length=12):
     characters = string.ascii_letters + string.digits + string.punctuation
     password = ''.join(secrets.choice(characters) for _ in range(length))
+    pyperclip.copy(password)
+    pwd.delete(0,END)
     pwd.insert(END, password)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
+
 def save_data():
     url = website.get()
+    if not url:
+        messagebox.showerror("Validation Error", "Please enter a valid URL.")
     username = email.get()
+    if not username:
+        messagebox.showerror("Validation Error", "Please enter an email or username.")
     password = pwd.get()
-    with open("data_file.txt", "a") as data:
-        data.write(f"{url} | {username} | {password}\n")
-    website.delete(0, END)
-    pwd.delete(0, END)
-    website.focus()
+    if not password:
+        messagebox.showerror("Validation Error", "Please enter a password.")
+    else:
+        is_ok = messagebox.askokcancel(title=url, message=f"Username = {username}\nPassword = {password}\n\nIs it ok to save?")
+        if is_ok:
+            with open("data_file.txt", "a") as data:
+                data.write(f"{url} | {username} | {password}\n")
+            website.delete(0, END)
+            pwd.delete(0, END)
+            website.focus()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
-
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50)
