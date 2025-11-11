@@ -20,8 +20,10 @@ It lets you **generate strong passwords**, **save site credentials** to a local 
 
 Add `logo.png` to the project root to see the logo in the window.
 
+<img src="screenshot.png" width="400">
+
 ```
-![Password Manager UI](screenshots/app.png)
+<img src="screenshot.png" width="400">
 ```
 
 ---
